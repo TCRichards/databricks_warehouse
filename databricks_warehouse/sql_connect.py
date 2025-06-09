@@ -34,7 +34,7 @@ def read_databricks(
         warehouse_id: The ID of the SQL warehouse to run the query on.  Cannot be set with cluster_id.
         client_id: The client ID for M2M OAuth. Cannot be set with token.
         client_secret: The client secret for M2M OAuth. Cannot be set with token.
-        params: SQL query parameters to pass in to the query -- use `:name` as the parameter placeholder
+        params: SQL query parameters to pass in to the query -- use `:name` as the parameter placeholder.
 
     If client_id and client_secret are not provided, the Databricks CLI will be used for authentication.
 
@@ -80,7 +80,7 @@ def read_databricks_pl(
         client_id: The client ID for M2M OAuth. Cannot be set with token.
         client_secret: The client secret for M2M OAuth. Cannot be set with token.
         schema_overrides: Dictionary mapping columns to intended dtypes.
-        params: SQL query parameters to pass in to the query -- use `:name` as the parameter placeholder
+        params: SQL query parameters to pass in to the query -- use `:name` as the parameter placeholder.
 
     If client_id and client_secret are not provided, the Databricks CLI will be used for authentication.
 
@@ -218,20 +218,7 @@ def get_spark_session():
     except ImportError:
         raise ImportError(
             "Databricks Connect is not installed.  To include it, make sure you're adding the `databricks_warehouse` "
-            "as a dependecy with the `connect` extra, e.g. `pip install databricks_warehouse[connect]`, or add the following to your pyproject.toml:\n\n"
-            'databricks_warehouse = { path = "../databricks_warehouse", develop = true, extras = ["connect"] }'
+            "as a dependecy with the `connect` extra, e.g. `pip install databricks_warehouse[connect]` or "
+            "`poetry add databricks_warehouse --extras connect'"
         )
     return DatabricksSession.builder.getOrCreate()
-
-
-if __name__ == "__main__":
-    # Debug sample queries for all code paths
-    query = "SELECT station_code, block_index FROM bess_prd.reference.mv_station_details WHERE station_code = :station_code"
-    params = {"station_code": "CPE0070"}
-
-    for query_method in (read_databricks, read_databricks_pl):
-        os.environ.pop("DATABRICKS_RUNTIME_VERSION", None)  # Run once using SQL connector
-        print(query_method(query, params=params))
-
-        os.environ["DATABRICKS_RUNTIME_VERSION"] = "fake"  # Run once with Spark Connect
-        print(query_method(query, params=params))

@@ -25,14 +25,15 @@ databricks_warehouse = { path = "../../libraries/databricks_warehouse", develop 
 
 ## Databricks Connect Fallback
 
-The Databricks SQL Connector can only be used from compute that's running outside of Databricks.  To support queries from Databricks jobs as well, the preferred method is to use Databricks Connect.  All query methods have built-in fallbacks to Databricks Connect which will be run if we detect we're in a Databricks environment.  To include this optional feature, make sure to include the `connect` extra:
+The Databricks SQL Connector can only be used from compute that's running outside of Databricks.  To support queries from Databricks jobs as well, the preferred method is to use Databricks Connect.  All query methods have built-in fallbacks to Databricks Connect which will be run if we detect we're in a Databricks environment.  To include this optional feature, make sure to include the `connect` extra (excluded by default to limit dependencies):
 
-```toml
-[tool.poetry.dependencies]
-...
-databricks_warehouse = { path = "../../libraries/databricks_warehouse", develop = True, extras = ["connect"] }
+```bash
+pip install databricks_warehouse[connect]
 ```
 
+```bash
+poetry add databricks_warehouse --extras connect
+```
 
 # Primary Methods
 
