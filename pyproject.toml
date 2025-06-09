@@ -1,0 +1,56 @@
+[build-system]
+requires = [ "poetry-core",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "databricks_warehouse"
+version = "1.0.0"
+description = "A library that wraps the databricks-sql-connector for running queries on Databricks"
+authors = [ "Thomas Richards <thomas.c.richards@outlook.com>"]
+readme = "README.md"
+
+[[tool.poetry.packages]]
+include = "databricks_warehouse"
+
+# As a library that should be easy to import from multiple places,
+# keep dependencies lightweight and use wide version constraints.
+
+[tool.poetry.dependencies]
+python = "^3.9"
+databricks-sql-connector = { version = ">=2.9", extras = ["pyarrow"] }
+databricks-sdk = "^0.36.0"
+toml = "^0"
+polars = "^1"
+pytest-mock = "^3.14.1"
+
+# Make Databricks Connect-based Fallback an optional dependency.
+# To include Databricks Connect-based fallbacks, make sure this package is added as a dependency with
+# `poetry add databricks_warehouse[connect]`
+# or `poetry install --extras connect`
+[tool.poetry.extras]
+connect = ["databricks-connect"]
+
+[tool.poetry.group.connect.dependencies]
+databricks-connect = ">=13.3.7"
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=5.0"
+
+[tool.ruff.lint]
+extend-select = [ "I", "D", "E501",]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff]
+line-length = 110
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "@abstract",
+  "if __name__ == .__main__.:",
+  "def __repr__",
+  "^\\s*raise.*Error",
+  "\\.\\.\\.",
+]
