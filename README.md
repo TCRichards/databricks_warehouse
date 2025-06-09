@@ -13,23 +13,31 @@ The goal of this library is to make querying Databricks "just work" in a standar
 # Installation
 
 
-## SQL Connector Only
+## From PyPI
 
-To include `databricks_warehouse` in your project, add it as a dependency in your project's `pyproject.toml`:
+This library is available on [PyPI](https://pypi.org/project/databricks_warehouse) and can be installed with pip:
 
-```toml
-[tool.poetry.dependencies]
-...
-databricks_warehouse = { path = "../../libraries/databricks_warehouse", develop = True }
+```bash
+pip install databricks_warehouse
+```
+
+Or with Poetry:
+
+```bash
+poetry add databricks_warehouse
 ```
 
 ## Databricks Connect Fallback
 
-The Databricks SQL Connector can only be used from compute that's running outside of Databricks.  To support queries from Databricks jobs as well, the preferred method is to use Databricks Connect.  All query methods have built-in fallbacks to Databricks Connect which will be run if we detect we're in a Databricks environment.  To include this optional feature, make sure to include the `connect` extra (excluded by default to limit dependencies):
+The Databricks SQL Connector can only be used from compute that's running outside of Databricks.  To support queries from Databricks jobs as well, the preferred method is to use Databricks Connect.  All query methods have built-in fallbacks to Databricks Connect which will be run if we detect we're in a Databricks environment.  To include this optional feature, make sure to include the `connect` extra (excluded by default to limit dependencies).
+
+For pip:
 
 ```bash
 pip install databricks_warehouse[connect]
 ```
+
+Or with Poetry:
 
 ```bash
 poetry add databricks_warehouse --extras connect
